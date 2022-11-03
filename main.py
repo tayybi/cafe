@@ -1,13 +1,17 @@
 import os
+from tabnanny import check
 
 product_list = []
 couriers_list = []
+orders_list = []
 
+# reading data of courior and products from file
+#adding into list 
 def read_from_file():
     f = open("couriers.txt", "r")
     f1 = f.readlines()
     for x in f1:
-        couriers_list.append(x[:-1])
+        couriers_list.append(x.strip("\n"))
     f.close
 
     f = open("products.txt", "r")
@@ -16,6 +20,14 @@ def read_from_file():
         product_list.append(x[:-1])
     f.close
 
+    f = open("orders.txt", "r")
+    f1 = f.readlines()
+    for x in f1:
+        orders_list.append(x[:-1])
+    f.close
+
+# reading data of courior and products from file
+#adding into list 
 def write_into_file():
     f = open("couriers.txt", "w")
     for x in couriers_list:
@@ -24,6 +36,11 @@ def write_into_file():
     
     f = open("products.txt", "w")
     for x in product_list:
+        f.write(x+"\n")
+    f.close()  
+
+    f = open("orders.txt", "w")
+    for x in orders_list:
         f.write(x+"\n")
     f.close()    
 
@@ -115,15 +132,111 @@ def courioure_menue():
                     flag = True
                 print("courier not exist try again / 0 for back")
 
-read_from_file()
+
+# Order Menue
+def order_menue():
+
+    second_input = 1
+    while second_input != 0:
+        print("\n******* ORDER MENUE *******\n")
+        second_input = int(input("0 Main Menue \n1 All Orders \n2 Create Order \n3 update Order status \n4 Update Existing order \n5 Delete order : "))
+        
+        if second_input == 1:
+            #print all order
+            print("All Orders \n")
+            for l in orders_list:
+                print(l)
+
+        elif second_input == 2:
+            #create new order
+            c_name = input("Customer name: ")
+            c_address = input("Customer Address: ")
+            c_phone = input("Customer Phone: ")
+            o_status = "PREPARING"
+            new_order = {"customer_name":c_name,"customer_address":c_address,"customer_phone":c_phone,"status":o_status}
+            orders_list.append(new_order)
+            print("New Order Added")
+
+        elif second_input == 3:
+            #update order status
+            for index,name in enumerate(orders_list):
+                print(f"{index}   "+name["customer_name"])
+            flag=""   
+            while flag != 'no':
+                order_no = input("Enter Order number for status change or 'no' for back:  ")
+                if order_no == 'no':
+                    flag = 'no'
+                else:
+                    for indx, l in enumerate(orders_list):
+                        if int(order_no) == indx:
+                            print("Current order status is:"+ l.get("status"))
+                            check_update = input("\nDo you want update status? y/n")
+                            if check_update == 'y':
+                                get_status = int(input("\n0 'PPREPARING'\n1 'READY'\n2 'COMPLETED'"))
+                                if get_status == 0:
+                                    l.update({"status":"PPREPARING"})
+                                    flag = 'no'
+                                elif get_status == 1:
+                                    l.update({"status":"READY"})
+                                    flag = 'no'
+                                elif get_status == 1:
+                                    l.update({"status":"COMPLETED"})
+                                    flag = 'no'
+
+                        else:
+                            print("Order not exist")
+
+        elif second_input == 4:
+            #update existing order
+            for index,name in enumerate(orders_list):
+                print(f"{index}   "+name["customer_name"])
+            flag=""   
+            while flag != 'no':
+                order_no = input("Enter Order number for updation or 'no' for back:  ")
+                if order_no == 'no':
+                    flag = 'no'
+                else:
+                    for indx, l in enumerate(orders_list):
+                        if int(order_no) == indx:
+                            name = input("\nEnter new name: ")
+                            add = input("\nEnter new address: ")
+                            ph = input("\nEnter newphone : ")
+                            l.update({"customer_name":name,"customer_address":add,"customer_phone":ph})
+                            print("Order Updated")
+                            flag="no"
+                        else:
+                            print("Order not exist")
+        
+        elif second_input == 5:
+            #Delete order
+            for index,name in enumerate(orders_list):
+                print(f"{index}   "+name["customer_name"])
+            flag=""   
+            while flag != 'no':
+                order_no = input("Enter Order number for Deletion or 'no' for back:  ")
+                if order_no == 'no':
+                    flag = 'no'
+                else:
+                    for indx, l in enumerate(orders_list):
+                        if int(order_no) == indx:
+                            orders_list.pop(indx)
+                            print("Order Deleted")
+                            flag="no"
+                        else:
+                            print("Order not exist")
+
+
+
 # main menue
+
+read_from_file()
 first_input = 1
 while first_input != 0:
     os.system("cls")
     print("******* Welcome to POP-UP CAFE *******\n")
-    first_input = int(input("0 To Exit \n1 Product Menue \n2 Couriers Menue: "))
+    first_input = int(input("0 To Exit \n1 Product Menue \n2 Couriers Menue \n3 Order Menue: "))
     try:
-        if first_input <3:
+        if first_input <4:
             if first_input == 1:
                 os.system("cls")
                 product_menue()
@@ -131,6 +244,9 @@ while first_input != 0:
             elif first_input == 2:
                 os.system("cls")
                 courioure_menue()
+            elif first_input == 3:
+                os.system("cls")
+                order_menue()
 
     except ValueError as r:
         print(r)

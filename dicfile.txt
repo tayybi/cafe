@@ -1,0 +1,7 @@
+name: John, count: 1
+name: Sally, count: 1
+name: Mark, count: 1
+name: Lisa, count: 2
+name: Joe, count: 1
+name: Barry, count: 1
+name: Jane, count: 1
