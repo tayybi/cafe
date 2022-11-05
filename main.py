@@ -8,19 +8,19 @@ orders_list = []
 # reading data of courior and products from file
 #adding into list 
 def read_from_file():
-    f = open("couriers.txt", "r")
+    f = open("data/couriers.txt", "r")
     f1 = f.readlines()
     for x in f1:
         couriers_list.append(x.strip("\n"))
     f.close
 
-    f = open("products.txt", "r")
+    f = open("data/products.txt", "r")
     f1 = f.readlines()
     for x in f1:
         product_list.append(x[:-1])
     f.close
 
-    f = open("orders.txt", "r")
+    f = open("data/orders.txt", "r")
     f1 = f.readlines()
     for x in f1:
         orders_list.append(x[:-1])
@@ -29,17 +29,17 @@ def read_from_file():
 # reading data of courior and products from file
 #adding into list 
 def write_into_file():
-    f = open("couriers.txt", "w")
+    f = open("data/couriers.txt", "w")
     for x in couriers_list:
         f.write(x+"\n")
     f.close()
     
-    f = open("products.txt", "w")
+    f = open("data/products.txt", "w")
     for x in product_list:
         f.write(x+"\n")
     f.close()  
 
-    f = open("orders.txt", "w")
+    f = open("data/orders.txt", "w")
     for x in orders_list:
         f.write(x+"\n")
     f.close()    
