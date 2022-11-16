@@ -35,3 +35,20 @@ class DBhandler:
             for dic_line in csv_reader:
                 courier_list.append(dic_line)
             return courier_list
+
+    def write_into_order(order_list):
+        fieldnames = ['customer_name', 'customer_address','customer_phone','courier','status','items']
+        with open('data/orders.csv', 'w', encoding='UTF8', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(order_list)
+
+    def read_from_order(self):
+        order_list = []
+        fieldnames = ['customer_name', 'customer_address','customer_phone','courier','status','items']
+        with open('data/orders.csv', encoding="utf8") as f:
+            csv_reader = csv.DictReader(f, fieldnames)
+            next(csv_reader) # skip first line
+            for dic_line in csv_reader:
+                order_list.append(dic_line)
+            return order_list

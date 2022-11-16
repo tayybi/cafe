@@ -20,7 +20,7 @@ class Products:
                 return "none"
 
     def del_product(self,indx):
-        self.prod_list.remove(indx)
+        self.prod_list.pop(indx)
         
 
     def display_products(self):

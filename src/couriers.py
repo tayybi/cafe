@@ -21,7 +21,7 @@ class Couriers:
                 return "none"
 
     def del_courier(self,indx):
-        self.courior_list.remove(indx)
+        self.courior_list.pop(indx)
         
 
     def display_couriour(self):

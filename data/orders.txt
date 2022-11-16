@@ -1,1 +1,0 @@
-{'customer_name': 'tayyab', 'customer_address': 'eastham', 'customer_phone': '3333', 'status': 'PREPARING'}

@@ -1,48 +1,35 @@
-import json
+
 class Orders:
-    list = []
-    def __init__(self):
-        self.read_file()
+    order_list = []
+    def __init__(self,list):
+        self.order_list = list
 
-    def add_ordert(self, name):
-        self.list.append(name)
+    def add_order(self, list_item):
+        self.order_list.append(list_item)
 
-    def update_order(self,indx,list):
-        self.list[indx] = list
-
+    def update_order_status(self,indx,status):
+        self.order_list[indx].update({"status": status})
+    
+    def update_existing_order(self,indx,data):
+        self.order_list[indx] = data
+        
     def is_order_exist(self,index):
-        for indx, l in enumerate(self.list):
-            if index == indx:
-                return l
+        for indx, l in enumerate(self.order_list):
+            if index == index:
+                return indx
             else:
                 return "none"
 
     def del_order(self,indx):
-        self.list.pop(indx)
+        self.order_list.pop(indx)
         
 
     def display_order(self):
-        print("No  Name  Address  Phone  Status")
-        for index,name in enumerate(self.list):
-            # name = dict(name)
-            # print(f"{index})  "+name["customer_name"]+"  "+name["customer_address"]+"  "+name["customer_phone"]+"  "+name["status"])
-            print(f"{index})  {name.value('customer_name')}  {name.value('customer_address')}  {name.value('customer_phone')}  {name.value('status')}")
+        print("Indx  Name  Status  Courier  Items  Address")
+        for index , lst in enumerate(self.order_list):
+            name=dict(lst)
+            print(f"{index})   {name['customer_name']}   {name['status']}  {name['courier']}  {name['items']}  {name['customer_address']}" )
 
     def get_order(self):
-        return self.list
+        return self.order_list
     
-    def read_file(self):
-        with open("data/orders.txt") as f:
-            data = f.readlines()
-            self.list = data
-            # js = json.load(data)
-            # for x in js:
-            #     self.list.append(x)
-                
-        f.close
-    def write_into_file(self):
-        f = open("data/orders.txt", "w")
-        f.writelines(self.list)
-        # for x in self.list:
-        #     f.write(f"{x}\n")
-        f.close() 

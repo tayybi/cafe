@@ -6,6 +6,7 @@ import db_handler
 
 prod_list = db_handler.DBhandler().read_from_prod()
 courier_list = db_handler.DBhandler().read_from_courier()
+orders_list = db_handler.DBhandler().read_from_order()
 
 # main menue
 def main_menu():
@@ -34,6 +35,7 @@ def main_menu():
                 
     db_handler.DBhandler.write_into_prod(prod_list)
     db_handler.DBhandler.write_into_courier(courier_list)
+    db_handler.DBhandler.write_into_order(orders_list)
     print("Thank you very much")
 
 # product menue
@@ -163,98 +165,109 @@ def courioure_menue():
                 else:
                     temp = input("\Courier not exist try again y/n")
 
+def update_order():
+    prod_obj = products.Products(prod_list)
+    cour_obj = couriers.Couriers(courier_list)
+    c_name = input("Customer name: ")
+    c_address = input("Customer Address: ")
+    c_phone = input("Customer Phone: ")
+    print("\n******* Choose Products from list *******")
+    prod_obj.display_products()
+    c_items = input("Add products index value by comma seprater: ")
+    print("\n******* Choose Courier from list *******")
+    cour_obj.display_couriour()
+    c_courioure = input("Add Courier index value: ")
+    o_status = "PREPARING"
+    new_order = {"customer_name":c_name,"customer_address":c_address,"customer_phone":c_phone,"courier":c_courioure,"status":o_status,"items":c_items}
+    return new_order
 
 # Order Menue
 def order_menue():
 
-    cour_menue_input = 1
-    order_data = orders.Orders()
-    while cour_menue_input != 0:
-        print("\n******* ORDER MENUE *******\n")
-        cour_menue_input = int(input("0 Main Menue \n1 All Orders \n2 Create Order \n3 update Order status \n4 Update Existing order \n5 Delete order : "))
+    ord_input = 1
+    order_data = orders.Orders(orders_list)
+    while ord_input != 0:
+        print("******* ORDER MENUE *******")
+        ord_input = int(input("""
+        0 Main Menue 
+        1 All Orders 
+        2 Create Order
+        3 Update Order status 
+        4 Update Existing order
+        5 Delete order : """))
         
         # All orders list
-        if cour_menue_input == 1:
+        if ord_input == 1:
             os.system("cls")
             print("******* All Orders *******\n")
             order_data.display_order()
 
         #create new order
-        elif cour_menue_input == 2:
+        elif ord_input == 2:
             os.system("cls")
-            print("\n******* Create New Order *******\n")
-            c_name = input("Customer name: ")
-            c_address = input("Customer Address: ")
-            c_phone = input("Customer Phone: ")
-            o_status = "PREPARING"
-            new_order = {"customer_name":c_name,"customer_address":c_address,"customer_phone":c_phone,"status":o_status}
-            order_data.add_ordert(new_order)
+            order_data.add_order(update_order())
             print("\nNew Order Added...")
         
         #update order status
-        elif cour_menue_input == 3:
+        elif ord_input == 3:
             temp = 'y'   
             while temp != 'n':
                 os.system("cls")
+                print("******* Update Order Status *******")
                 order_data.display_order()
-                print("\n******* Update Order Status *******\n")
-                order_no = int(input("Enter Order number: "))
-                ord_lst = order_data.is_order_exist(order_no)
-                if ord_lst != "none":
-                    print("Current order status is:"+ ord_lst.get("status"))
-                    temp = input("\nDo you want update status? y/n")
-                    if temp == 'y':
-                        get_status = int(input("\n0 'PPREPARING'\n1 'READY'\n2 'COMPLETED' "))
-                        if get_status == 0:
-                            ord_lst.update({"status":"PPREPARING"})
-                            order_data.update_order(order_no,ord_lst)
-                            break
-                        elif get_status == 1:
-                            ord_lst.update({"status":"READY"})
-                            order_data.update_order(order_no,ord_lst)
-                            break
-                        elif get_status == 2:
-                            ord_lst.update({"status":"COMPLETED"})
-                            order_data.update_order(order_no,ord_lst)
-                            break
+                indx = int(input("Choose the order index for update:  "))
+
+                ordr_check = order_data.get_order()[indx]
+                if ordr_check != "":
+                    get_status = int(input("""
+                    0 'PPREPARING'
+                    1 'READY'
+                    2 'COMPLETED'
+                    Choose new order status: """))
+                    if get_status == 0:
+                        order_data.update_order_status(indx,"PPREPARING")
+                        break
+                    elif get_status == 1:
+                        order_data.update_order_status(indx,"READY")
+                        break
+                    elif get_status == 2:
+                        order_data.update_order_status(indx,"COMPLETED")
+                        break
                 else:
                     temp = input("\nOrder not exist try again y/n: ")
+        
         #update an existing order
-        elif cour_menue_input == 4:
+        elif ord_input == 4:
             temp = 'y'   
             while temp != 'n':
                 os.system("cls")
-                order_data.display_order()
                 print("\n******* Update Order *******\n")
+                order_data.display_order()
                 order_no = int(input("Enter Order number: "))
-                ord_lst = order_data.is_order_exist(order_no)
-                if ord_lst != "none":
-                    name = input("\nEnter new name: ")
-                    add = input("\nEnter new address: ")
-                    ph = input("\nEnter newphone : ")
-                    ord_lst.update({"customer_name":name,"customer_address":add,"customer_phone":ph})
-                    order_data.update_order(order_no,ord_lst)
+                ordr_check = order_data.get_order()[order_no]
+                if ordr_check != "":
+                    order_data.update_existing_order(order_no,update_order())
                     print("Order Updated")
                     break
                 else:
                     temp = input("\nOrder not exist try again y/n: ")
 
         #Delete an order
-        elif cour_menue_input == 5:
+        elif ord_input == 5:
             temp = 'y'   
             while temp != 'n':
                 os.system("cls")
+                print("\n******* Delete an Order *******\n")
                 order_data.display_order()
-                print("\n******* Update Order *******\n")
                 order_no = int(input("Enter Order number: "))
-                ord_lst = order_data.is_order_exist(order_no)
-                if ord_lst != "none":
-                    ord_lst.update({"customer_name":name,"customer_address":add,"customer_phone":ph})
+                ordr_check = order_data.get_order()[order_no]
+                if ordr_check != "":
                     order_data.del_order(order_no)
                     print("Order Deleted")
                     break
                 else:
                     temp = input("\nOrder not exist try again y/n: ")
-    order_data.write_into_file()
-            
+
+
+
 main_menu()
