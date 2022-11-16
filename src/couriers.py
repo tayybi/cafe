@@ -1,41 +1,35 @@
+
 class Couriers:
-    list = []
-    def __init__(self):
-        self.read_file()
+    courior_list = []
+    def __init__(self,list):
+        self.courior_list = list
 
-    def add_product(self, name):
-        self.list.append(name)
+    def add_courior(self, list_item):
+        # if type(list_item) != 'list':
+        #     return 'null'
+        # else:
+        self.courior_list.append(list_item)
 
-    def update_product(self,indx,name):
-        self.list[indx] = name
+    def update_courier(self,indx,name,phone):
+        self.courior_list[indx] = {'name':name,'phone':phone}
 
-    def is_product_exist(self,name):
-        for indx, l in enumerate(self.list):
-            if name == l:
+    def is_cour_exist(self,index):
+        for indx, l in enumerate(self.courior_list):
+            if index == index:
                 return indx
             else:
                 return "none"
 
-    def del_product(self,name):
-        if name in self.list:
-            self.list.remove(name)
+    def del_courier(self,indx):
+        self.courior_list.remove(indx)
         
 
-    def display_products(self):
-        for l in self.list:
-            print(l)
+    def display_couriour(self):
+        print("Indx  Name  Phone")
+        for index , lst in enumerate(self.courior_list):
+            name=dict(lst)
+            print(f"{index})   {name['name']}   {name['phone']}" )
 
-    def get_products(self):
-        return self.list
+    def get_courier(self):
+        return self.courior_list
     
-    def read_file(self):
-        f = open("data/couriers.txt", "r")
-        f1 = f.readlines()
-        for x in f1:
-            self.list.append(x[:-1])
-        f.close
-    def write_into_file(self):
-        f = open("data/couriers.txt", "w")
-        for x in self.list:
-            f.write(x+"\n")
-        f.close() 
