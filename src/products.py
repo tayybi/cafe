@@ -1,13 +1,13 @@
 class Products:
-    prod_list = []
+    # prod_list = []
     def __init__(self,list):
         self.prod_list = list
 
     def add_product(self, list_item):
         if type(list_item) == 'list':
-            return 'null'
-        else:
             self.prod_list.append(list_item)
+        else:
+            return 'null'
 
     def update_product(self,indx,name,price):
         self.prod_list[indx] = {'name':name,'price':price}

@@ -3,6 +3,7 @@ import products
 import couriers
 import orders
 import db_handler
+import sqlite_db_handler
 
 prod_list = db_handler.DBhandler().read_from_prod()
 courier_list = db_handler.DBhandler().read_from_courier()
@@ -10,15 +11,15 @@ orders_list = db_handler.DBhandler().read_from_order()
 
 # main menue
 def main_menu():
-    
     first_input = 1
     while first_input != 0:
+
         os.system("cls")
-        print("******* Welcome to POP-UP CAFE *******\n")
+        print("******* WELCOME TO LONDON CAFE *******")
         first_input = int(input("""
-        0) To Exit \n
-        1) Product Menue \n
-        2) Couriers Menue \n
+        0) To Exit 
+        1) Product Menue 
+        2) Couriers Menue 
         3) Order Menue: """))
         if first_input <4:
             if first_input == 1:
@@ -43,13 +44,13 @@ def product_menue():
     prod_obj = products.Products(prod_list)
     prod_menue_input = 1
     while prod_menue_input != 0:
-        print("\n******* PRODUCT MENUE *******\n")
+        print("******* PRODUCT MENUE *******")
         prod_menue_input = int(input('''
-        0 Main Menue \n
-        1 All products \n
-        2 Add new product \n
-        3 update an Existing product \n
-        4 Delete a product: '''))
+        0) Main Menue 
+        1) All products 
+        2) Add new product 
+        3) update an Existing product 
+        4) Delete a product: '''))
        
         #List of all products
         if prod_menue_input == 1:
@@ -101,19 +102,18 @@ def product_menue():
                 else:                    
                     temp = input("\nProduct not exist try again y/n")
 
-
 # couriour menue
 def courioure_menue():
     cour_obj = couriers.Couriers(courier_list)
     cour_menue_input = 1
     while cour_menue_input != 0:
-        print("\n******* COURIER MENUE *******\n")
+        print("******* COURIER MENUE *******")
         cour_menue_input = int(input("""
-        0 Main Menue \n
-        1 All Couriers \n
-        2 Add new Couriers \n
-        3 Update an Existing Couriers \n
-        4 Delete a Couriers: """))
+        0) Main Menue 
+        1) All Couriers 
+        2) Add new Couriers 
+        3) Update an Existing Couriers 
+        4) Delete a Couriers: """))
 
         # All couriers
         if cour_menue_input == 1:
@@ -189,12 +189,12 @@ def order_menue():
     while ord_input != 0:
         print("******* ORDER MENUE *******")
         ord_input = int(input("""
-        0 Main Menue 
-        1 All Orders 
-        2 Create Order
-        3 Update Order status 
-        4 Update Existing order
-        5 Delete order : """))
+        0) Main Menue 
+        1) All Orders 
+        2) Create Order
+        3) Update Order status 
+        4) Update Existing order
+        5) Delete order : """))
         
         # All orders list
         if ord_input == 1:
@@ -271,3 +271,4 @@ def order_menue():
 
 
 main_menu()
+
