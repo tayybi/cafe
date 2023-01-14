@@ -41,6 +41,9 @@
         -Contain all python files 
     -test
         -Contains testing files
+     ![image](https://user-images.githubusercontent.com/63280240/212466225-de6a13f7-2cba-477f-81f9-d22138320a0e.png)
+
+
 
 ## Improvements to be needed
     -Adwance testing techniques
